@@ -1,1 +1,2 @@
-# CS550_Projects
+# CS550_Graphics
+2018 Fall
