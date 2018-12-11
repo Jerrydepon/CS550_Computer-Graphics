@@ -64,6 +64,7 @@ const int LEFT   = { 4 };
 const int MIDDLE = { 2 };
 const int RIGHT  = { 1 };
 
+bool prc = true;
 
 // which projection:
 
@@ -358,7 +359,29 @@ Display( )
         Scale = MINSCALE;
     glScalef( (GLfloat)Scale, (GLfloat)Scale, (GLfloat)Scale );
 
-
+    unsigned char* Texture;
+    unsigned char* Texture2;
+    
+    if(prc == true)
+    {
+        Texture = BmpToTexture("worldtex.bmp", &width, &height);
+        
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glGenTextures(1, &tex0);
+        glBindTexture(GL_TEXTURE_2D, tex0);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, Texture);
+        glutPostRedisplay();
+    }
+    else
+    {
+        Texture2 = BmpToTexture("icon.bmp", &width, &height);
+        
+        glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+        glGenTextures(1, &tex0);
+        glBindTexture(GL_TEXTURE_2D, tex0);
+        glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, Texture2);
+        glutPostRedisplay();
+    }
     // set the fog parameters:
 
     if( DepthCueOn != 0 )
@@ -671,7 +694,7 @@ InitMenus( )
 void
 InitGraphics( )
 {
-    unsigned char* Texture;
+    
     // request the display modes:
     // ask for red-green-blue-alpha color, double-buffering, and z-buffering:
 
@@ -733,12 +756,6 @@ InitGraphics( )
     glutTimerFunc( -1, NULL, 0 );
     glutIdleFunc( Animate );
 
-    Texture = BmpToTexture("worldtex.bmp", &width, &height);
-
-    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
-    glGenTextures(1, &tex0);
-    glBindTexture(GL_TEXTURE_2D, tex0);
-    glTexImage2D(GL_TEXTURE_2D, 0, 3, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, Texture);
 
     // init glew (a window must be open to do this):
 
@@ -788,6 +805,11 @@ Keyboard( unsigned char c, int x, int y )
 
     switch( c )
     {
+        case 'c':
+        case 'C':
+            prc = ! prc;
+            break;
+            
         case 'o':
         case 'O':
             WhichProjection = ORTHO;
@@ -1235,13 +1257,18 @@ const int birgb = { 0 };
 unsigned char* BmpToTexture(char *filename, int *width, int *height) {
     int s, t, e;        // counters
     int numextra;       // # extra bytes each line in the file is padded with
-    FILE *fp;
+    FILE *fp, *fp2;
     unsigned char *texture;
     int nums, numt;
     unsigned char *tp;
 
     fp = fopen("/Users/jerrywang/Documents/CS550_Computer_Graphics/HW/HW3/cs550_project_3/cs550_project_3/worldtex.bmp", "rb");   //path of the file
+    fp2 = fopen("/Users/jerrywang/Documents/CS550_Computer_Graphics/HW/HW3/cs550_project_3/cs550_project_3/icon.bmp", "rb");   //path of the file
     if (fp == NULL) {
+        fprintf(stderr, "Cannot open Bmp file '%s'\n", filename);
+        return NULL;
+    }
+    if (fp2 == NULL) {
         fprintf(stderr, "Cannot open Bmp file '%s'\n", filename);
         return NULL;
     }
@@ -1278,6 +1305,8 @@ unsigned char* BmpToTexture(char *filename, int *width, int *height) {
     InfoHeader.biYPelsPerMeter = ReadInt(fp);
     InfoHeader.biClrUsed = ReadInt(fp);
     InfoHeader.biClrImportant = ReadInt(fp);
+    
+    
 
 
     // fprintf(stderr, "Image size found: %d x %d\n", ImageWidth, ImageHeight);
