@@ -8,7 +8,7 @@ Cool Funtain.
 
 -----------------
 HW1: <br />
-This project requires you to draw something fun in 3D. It must be of your own creation. You can use pre-canned 3D objects, such as the ones that GLUT provides, in addition to your own, but you must also create your own geometry.
+This project requires you to draw something fun in 3D.
 
 -----------------
 HW2: <br />
@@ -16,7 +16,7 @@ This project is to animate a helicopter and look at it in two different 3D views
 
 -----------------
 HW3: <br />
-The goal of this project is to map a texture (your choice) to an object (your choice) and then distort it in some way. What you do here is up to you, but make it more than trivial. But, whatever you do, make it so that you could not do the same thing with a texture transformation. That is, no rigid body rotates, scales, or translates.
+The goal of this project is to map a texture (your choice) to an object (your choice) and then distort it in some way.
 
 -----------------
 HW4: <br />
